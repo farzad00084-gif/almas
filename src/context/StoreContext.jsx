@@ -21,10 +21,7 @@ export function StoreProvider({ children }) {
     if (saved === 'light' || saved === 'dark') return saved;
     return typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
-  const [cart, setCart] = useState(() => {
-    const saved = readStorage(CART_KEY, []);
-    return Array.isArray(saved) ? saved.filter((line) => line && line.slug && Number(line.quantity) > 0) : [];
-  });
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -39,7 +36,12 @@ export function StoreProvider({ children }) {
     root.classList.toggle('rtl', language === 'fa');
     try { localStorage.setItem(LANGUAGE_KEY, JSON.stringify(language)); } catch {}
   }, [language]);
-  useEffect(() => { try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch {} }, [cart]);
+  useEffect(() => {
+    try { localStorage.removeItem(CART_KEY); } catch {}
+    const resetRestoredCart = (event) => { if (event.persisted) setCart([]); };
+    window.addEventListener('pageshow', resetRestoredCart);
+    return () => window.removeEventListener('pageshow', resetRestoredCart);
+  }, []);
 
   const addToCart = (product, quantity = 1, note = '') => {
     const cleanNote = note.trim();
@@ -47,7 +49,7 @@ export function StoreProvider({ children }) {
       const existing = current.find((line) => line.slug === product.slug && (line.note || '') === cleanNote);
       if (existing) return current.map((line) => line.id === existing.id ? { ...line, quantity: line.quantity + quantity } : line);
       const id = globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-      return [...current, { id, slug: product.slug, name: product.name, category: product.category, image: product.image, price: product.priceValue, quantity, note: cleanNote }];
+      return [...current, { id, slug: product.slug, name: product.name, category: product.category, image: product.image, thumbnail: product.thumbnail || product.image, price: product.priceValue, quantity, note: cleanNote }];
     });
   };
   const updateQuantity = (id, quantity) => setCart((current) => current.map((line) => line.id === id ? { ...line, quantity: Math.max(1, Number(quantity) || 1) } : line));

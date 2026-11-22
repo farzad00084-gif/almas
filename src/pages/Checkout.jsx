@@ -4,7 +4,7 @@ import { useStore } from '../context/StoreContext.jsx';
 import { calculateOrder, buildWhatsAppMessage, makeWhatsAppUrl, normalizeWhatsAppNumber } from '../lib/order.js';
 
 export default function CheckoutPage() {
-  const { t, cart, subtotal, formatPrice, config } = useStore();
+  const { t, cart, subtotal, formatPrice, config, clearCart } = useStore();
   const navigate = useNavigate();
   const [orderType, setOrderType] = useState('pickup');
   const [error, setError] = useState('');
@@ -24,6 +24,7 @@ export default function CheckoutPage() {
       const message = buildWhatsAppMessage({ customer, orderType, cart, totals, t, formatPrice });
       const url = makeWhatsAppUrl(config.whatsappNumber, message);
       window.open(url, '_blank', 'noopener,noreferrer');
+      clearCart();
       navigate('/order-success', { state:{ whatsappUrl:url } });
     } catch { setError(t('whatsappSetup')); }
   };

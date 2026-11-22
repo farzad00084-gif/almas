@@ -1,16 +1,18 @@
+import { lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { StoreProvider } from './context/StoreContext.jsx';
 import Layout from './components/Layout.jsx';
-import Home from './pages/Home.jsx';
-import MenuPage from './pages/Menu.jsx';
-import ProductDetail from './pages/ProductDetail.jsx';
-import CartPage from './pages/Cart.jsx';
-import CheckoutPage from './pages/Checkout.jsx';
-import About from './pages/About.jsx';
-import Gallery from './pages/Gallery.jsx';
-import Contact from './pages/Contact.jsx';
-import OrderSuccess from './pages/OrderSuccess.jsx';
-import NotFound from './pages/NotFound.jsx';
+
+const Home = lazy(() => import('./pages/Home.jsx'));
+const MenuPage = lazy(() => import('./pages/Menu.jsx'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail.jsx'));
+const CartPage = lazy(() => import('./pages/Cart.jsx'));
+const CheckoutPage = lazy(() => import('./pages/Checkout.jsx'));
+const About = lazy(() => import('./pages/About.jsx'));
+const Gallery = lazy(() => import('./pages/Gallery.jsx'));
+const Contact = lazy(() => import('./pages/Contact.jsx'));
+const OrderSuccess = lazy(() => import('./pages/OrderSuccess.jsx'));
+const NotFound = lazy(() => import('./pages/NotFound.jsx'));
 
 export default function App() {
   return <StoreProvider><BrowserRouter><Routes><Route element={<Layout/>}>
