@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#191b17" />
+    <meta name="description" content="Explore ALMAS Restaurant in Aarau: pizza, pide, lahmacun, snacks and grill plates." />
+    <title>ALMAS Restaurant — Aarau</title>
+    <script>
+      try {
+        const savedTheme = JSON.parse(localStorage.getItem('almas-theme-v1'));
+        const wantsDark = savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (wantsDark) document.documentElement.classList.add('dark');
+      } catch (_) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

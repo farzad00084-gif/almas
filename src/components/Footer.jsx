@@ -1,0 +1,7 @@
+import { Link } from 'react-router-dom';
+import { useStore } from '../context/StoreContext.jsx';
+import { siteConfig } from '../data/config.js';
+export default function Footer(){
+  const {t}=useStore();
+  return <footer className="site-footer mt-20 border-t border-soft"><div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.3fr_1fr_1fr] lg:px-8"><div><Link to="/" className="font-display text-xl uppercase tracking-[.2em]">ALMAS</Link><p className="mt-3 max-w-sm text-sm leading-7 text-muted">{t('footerLine')}</p></div><div><h2 className="footer-heading">{t('menu')}</h2><div className="grid grid-cols-2 gap-y-3 text-sm"><Link to="/menu">{t('menu')}</Link><Link to="/about">{t('about')}</Link><Link to="/gallery">{t('gallery')}</Link><Link to="/contact">{t('contact')}</Link></div></div><div><h2 className="footer-heading">{t('contact')}</h2><address className="not-italic text-sm leading-7 text-muted">Bahnhofstrasse 92<br/>5000 Aarau<br/><a href={`tel:${siteConfig.phoneHref}`}>{siteConfig.phoneDisplay}</a><br/><a href={`mailto:${siteConfig.email}`} aria-label={t('emailLabel')}>{siteConfig.email}</a></address></div></div><div className="border-t border-soft"><div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-4 text-xs text-muted sm:px-6 md:flex-row md:justify-between lg:px-8"><span>© {new Date().getFullYear()} ALMAS Restaurant</span><span>{t('footerLine')}</span></div></div></footer>;
+}
